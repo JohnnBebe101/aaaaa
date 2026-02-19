@@ -1,216 +1,303 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { SectionTitle, CanaanPattern, CactusLogo, Button, Container, HeritageFrieze, TestimonialCard, Badge } from '../components/CommonUI';
-import { Leaf, ArrowRight, Users, ChevronDown, Coffee, MapPin, Landmark, Mountain, ChevronRight, ChevronLeft, ShieldCheck, Zap } from 'lucide-react';
+import { SectionTitle, CanaanPattern, Button, Container, HeritageFrieze, TestimonialCard, Badge, SocialRatingWidget, AttractionCard, CactusLogo } from '../components/CommonUI';
+import { ArrowRight, ChevronRight, ShieldCheck, Zap, Users, ChevronLeft, MapPin } from 'lucide-react';
 import { BookingWidget } from '../components/BookingWidget';
 
 const HERO_SLIDES = [
   {
     image: "https://images.unsplash.com/photo-1543730058-7931f3bb9abc?auto=format&fit=crop&q=80&w=2000",
-    label: "Sanctuary of the Northern Highlands",
+    label: "Gateway to the Northern Heritage",
     title: "Canaan Adigrat",
-    desc: "Experience the architectural resonance of ancient Tigray. A biophilic landmark standing as the gateway to the rock-hewn legacies of the Horn.",
-    cta: "Begin Reservation"
+    desc: "A biophilic landmark inspired by the ancient Axumite Mesob. Experience a sanctuary where architectural stability meets spiritual crossroads.",
+    cta: "Secure Sanctuary"
   },
   {
     image: "https://images.unsplash.com/photo-1493246507139-91e8bef99c02?auto=format&fit=crop&q=80&w=2000",
-    label: "Adventure & Spirituality",
-    title: "Gheralta Vista",
-    desc: "From vertical sandstone cliffs to 6th-century monasteries, discover a landscape where history reaches for the clouds.",
-    cta: "Explore Excursions"
+    label: "Sandstone Cliffs & Ancient Spirits",
+    title: "Highland Heights",
+    desc: "Discover the vertical world of the Gheralta mountains. From rock-hewn legacies to contemporary luxury in the heart of Tigray.",
+    cta: "Explore Sanctuaries"
   },
   {
-    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=2000",
-    label: "Modern Comfort, Ancient Soul",
-    title: "The Royal Mesob",
-    desc: "Immerse yourself in suites designed after the traditional Mesob, blending basalt textures with world-class hospitality.",
-    cta: "View Our Suites"
+    image: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=2000",
+    label: "A Cultural Sanctuary",
+    title: "Ancient Echoes",
+    desc: "Stay where history breathes. Our Grand Mesob Tower is a bridge between the 6th-century rock churches and tomorrow's prosperity.",
+    cta: "View Heritage"
   }
 ];
 
 const Home: React.FC<{ onNavigateToSuites?: () => void }> = ({ onNavigateToSuites }) => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  const [showStickyBar, setShowStickyBar] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const nextSlide = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    setTimeout(() => setIsTransitioning(false), 1000);
+  }, [isTransitioning]);
+
+  const prevSlide = useCallback(() => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+    setTimeout(() => setIsTransitioning(false), 1000);
+  }, [isTransitioning]);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 8000);
+    const timer = setInterval(nextSlide, 10000);
     return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowStickyBar(window.scrollY > window.innerHeight * 0.8);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [nextSlide]);
 
   return (
     <div className="animate-in fade-in duration-1000">
       <BookingWidget isOpen={isBookingModalOpen} onClose={() => setIsBookingModalOpen(false)} />
       
-      {/* Sticky Bottom Booking Bar */}
-      <nav 
-        aria-label="Quick booking"
-        className={`fixed bottom-0 left-0 right-0 z-[60] transform transition-all duration-500 ease-in-out ${showStickyBar ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
-      >
-        <div className="bg-forest/95 backdrop-blur-lg border-t border-cactus/30 shadow-2xl">
-          <Container className="py-4 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="hidden lg:flex items-center space-x-4">
-              <CactusLogo className="w-6 h-6 text-cactus" />
-              <div>
-                <p className="text-[10px] uppercase tracking-widest font-bold text-cactus leading-none mb-1">Canaan Luxury Adigrat</p>
-                <p className="text-xs text-sandstone serif">Gateway to the Northern Heritage</p>
-              </div>
-            </div>
-
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-              <div className="relative group">
-                <label htmlFor="sticky-arrival" className="absolute -top-2 left-2 px-1 bg-forest text-[8px] uppercase font-bold tracking-tighter text-cactus">Check In</label>
-                <input id="sticky-arrival" type="date" className="w-full bg-transparent border border-white/10 p-2 text-[10px] text-sandstone focus:outline-none focus:border-cactus rounded-sm" />
-              </div>
-              <div className="relative">
-                <label htmlFor="sticky-departure" className="absolute -top-2 left-2 px-1 bg-forest text-[8px] uppercase font-bold tracking-tighter text-cactus">Check Out</label>
-                <input id="sticky-departure" type="date" className="w-full bg-transparent border border-white/10 p-2 text-[10px] text-sandstone focus:outline-none focus:border-cactus rounded-sm" />
-              </div>
-              <div className="relative group hidden md:block">
-                <label className="absolute -top-2 left-2 px-1 bg-forest text-[8px] uppercase font-bold tracking-tighter text-cactus">Guests</label>
-                <button className="w-full flex items-center border border-white/10 p-2 rounded-sm text-sandstone cursor-pointer hover:border-cactus transition-colors">
-                    <Users className="w-3 h-3 mr-2 text-cactus" />
-                    <span className="text-[10px]">2 Guests</span>
-                    <ChevronDown className="w-3 h-3 ml-auto opacity-40" />
-                </button>
-              </div>
-              <Button 
-                onClick={() => setIsBookingModalOpen(true)} 
-                className="py-2 px-4"
-              >
-                Book Now <ArrowRight className="w-3 h-3" />
-              </Button>
-            </div>
-          </Container>
-        </div>
-      </nav>
-
       {/* Enhanced Hero Slider */}
-      <header className="relative h-screen w-full overflow-hidden bg-forest">
+      <header className="relative h-screen w-full overflow-hidden bg-forest" role="region" aria-label="Grand Tower Sanctuary Slide">
         {HERO_SLIDES.map((slide, index) => (
           <div 
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
+            className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
+              index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+            }`}
           >
-            <div className="absolute inset-0">
+            {/* Background Image with Cinematic Zoom */}
+            <div className="absolute inset-0 overflow-hidden">
               <img 
                 src={slide.image} 
                 alt={slide.title} 
-                className={`w-full h-full object-cover grayscale-[20%] ${index === currentSlide ? 'scale-110 animate-pulse-slow' : 'scale-100'}`}
+                className={`w-full h-full object-cover grayscale-[15%] brightness-[0.7] transition-transform duration-[10000ms] ease-linear ${
+                  index === currentSlide ? 'scale-110' : 'scale-100'
+                }`} 
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-forest/80 via-transparent to-forest/90"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-forest/80 via-transparent to-forest/95"></div>
             </div>
 
-            <div className="relative h-full flex items-center justify-center z-20 px-6">
-              <div className={`max-w-5xl text-center text-sandstone transition-all duration-1000 ${index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
-                <Badge variant="cactus">{slide.label}</Badge>
+            {/* Content Overlay with Staggered Animations */}
+            <div className="relative h-full flex flex-col items-center justify-center z-20 px-8">
+              <div className="max-w-6xl text-center text-sandstone">
+                <div className={`transform transition-all duration-1000 delay-300 ${
+                  index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                }`}>
+                  <Badge variant="cactus">{slide.label}</Badge>
+                </div>
                 
-                <h1 className="text-7xl md:text-9xl serif mt-8 mb-8 leading-tight">
+                <h1 className={`text-6xl md:text-[10rem] serif mt-10 mb-8 leading-[0.85] tracking-tighter transform transition-all duration-1000 delay-500 ${
+                  index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
+                }`}>
                   {slide.title}
                 </h1>
 
-                <p className="max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed mb-12 text-gray-300">
-                  {slide.desc}
+                <p className={`max-w-3xl mx-auto text-xl md:text-2xl font-light leading-relaxed mb-16 text-gray-300 italic transform transition-all duration-1000 delay-700 ${
+                  index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                }`}>
+                  "{slide.desc}"
                 </p>
 
-                <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
-                  <Button onClick={() => setIsBookingModalOpen(true)}>
+                <div className={`flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-12 transform transition-all duration-1000 delay-900 ${
+                  index === currentSlide ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                }`}>
+                  <Button onClick={() => setIsBookingModalOpen(true)} className="px-20 py-6 text-xs">
                     {slide.cta}
                   </Button>
                   <button 
-                    onClick={onNavigateToSuites}
-                    className="text-sandstone text-[10px] uppercase tracking-[0.4em] font-bold flex items-center group"
+                    onClick={onNavigateToSuites} 
+                    className="text-sandstone text-[11px] uppercase tracking-[0.5em] font-bold flex items-center group"
                   >
-                    View Catalog <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                    Sanctuary Gallery 
+                    <ChevronRight className="ml-4 w-5 h-5 group-hover:translate-x-4 transition-transform text-cactus" />
                   </button>
                 </div>
               </div>
             </div>
           </div>
         ))}
+
+        {/* Cinematic Progress Indicators */}
+        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-30 flex space-x-4 items-center">
+          {HERO_SLIDES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentSlide(i)}
+              className="group relative py-4 px-2"
+              aria-label={`Go to slide ${i + 1}`}
+            >
+              <div className={`h-[2px] w-12 transition-all duration-500 relative bg-white/20 overflow-hidden`}>
+                <div 
+                  className={`absolute inset-0 bg-cactus transition-transform origin-left duration-[10000ms] linear ${
+                    i === currentSlide ? 'scale-x-100' : 'scale-x-0'
+                  }`}
+                />
+              </div>
+              <span className={`absolute -top-4 left-0 text-[8px] font-bold tracking-widest transition-opacity duration-500 ${
+                i === currentSlide ? 'opacity-100 text-cactus' : 'opacity-0'
+              }`}>
+                0{i + 1}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Navigation Controls */}
+        <div className="absolute inset-y-0 left-8 right-8 z-30 flex items-center justify-between pointer-events-none">
+          <button 
+            onClick={prevSlide}
+            className="pointer-events-auto w-16 h-16 flex items-center justify-center text-sandstone/30 hover:text-cactus transition-all duration-500 group border border-white/5 hover:border-cactus/50 rounded-full backdrop-blur-sm"
+            aria-label="Previous slide"
+          >
+            <ChevronLeft className="w-8 h-8 group-hover:-translate-x-1 transition-transform" />
+          </button>
+          <button 
+            onClick={nextSlide}
+            className="pointer-events-auto w-16 h-16 flex items-center justify-center text-sandstone/30 hover:text-cactus transition-all duration-500 group border border-white/5 hover:border-cactus/50 rounded-full backdrop-blur-sm"
+            aria-label="Next slide"
+          >
+            <ChevronRight className="w-8 h-8 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
       </header>
 
       <main>
-        {/* Structural Excellence & Stability */}
-        <section className="py-32 bg-sandstone">
+        {/* Verified Recognition Trust Bar */}
+        <section className="relative z-30 -mt-16 max-w-7xl mx-auto px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 bg-white shadow-2xl border border-forest/5 overflow-hidden">
+            <SocialRatingWidget platform="google" rating="4.9" reviews="482" />
+            <SocialRatingWidget platform="tripadvisor" rating="5.0" reviews="156" />
+            <SocialRatingWidget platform="booking" rating="9.8" reviews="1.2k" />
+            <SocialRatingWidget platform="expedia" rating="4.7" reviews="340" />
+          </div>
+        </section>
+
+        {/* Structural Integrity & Philosophy */}
+        <section className="py-40 bg-sandstone overflow-hidden">
             <Container>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-                    <div className="order-2 lg:order-1">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+                    <div className="animate-in slide-in-from-left duration-1000">
                         <SectionTitle 
-                            label="Engineering & Integrity"
-                            title="A Legacy of Stability"
-                            description="The Grand Mesob Tower is more than an icon; it is a structural feat designed to withstand the tests of time, utilizing local sandstone composites and basalt foundations."
+                            label="The Stability Branch"
+                            title="Architecture of Resilience"
+                            description="Inspired by the Mesob tower, our structure utilizes indigenous basalt foundations and sandstone composites, creating a haven that breathes with the highland winds while offering the security of ancient forts."
                         />
-                        <div className="space-y-8">
+                        <div className="space-y-12">
                             {[
-                                { icon: <ShieldCheck className="w-6 h-6 text-cactus" />, title: 'Highland Fortification', desc: 'Engineered for the unique seismic and climatic profile of the Adigrat mountains.' },
-                                { icon: <Zap className="w-6 h-6 text-cactus" />, title: 'Energy Independence', desc: 'Equipped with integrated solar-harvesting facades for reliable, 24/7 luxury power.' },
+                                { icon: <ShieldCheck className="w-8 h-8 text-cactus" />, title: 'Seismic Integrity', desc: 'Precision engineered for the unique structural profile of the Ethiopian Highlands.' },
+                                { icon: <Zap className="w-8 h-8 text-cactus" />, title: 'Solar Harvesting', desc: 'Integrated facade technology providing zero-carbon, reliable 24/7 highland power.' },
+                                { icon: <Users className="w-8 h-8 text-cactus" />, title: 'Community Pillar', desc: 'Employing hundreds of local artisans and supporting Adigrat small-hold farmers.' },
                             ].map((item, i) => (
-                                <div key={i} className="flex gap-6">
-                                    <div className="flex-shrink-0 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-cactus/10">
+                                <div key={i} className="flex gap-8 group">
+                                    <div className="flex-shrink-0 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg border border-cactus/5 group-hover:bg-cactus group-hover:text-white transition-all duration-500">
                                         {item.icon}
                                     </div>
-                                    <div>
-                                        <h4 className="serif text-xl mb-2 text-forest">{item.title}</h4>
-                                        <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
+                                    <div className="pt-2">
+                                        <h4 className="serif text-2xl mb-3 text-forest">{item.title}</h4>
+                                        <p className="text-base text-gray-500 font-light leading-relaxed">{item.desc}</p>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div className="order-1 lg:order-2 relative">
-                        <img 
-                            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200" 
-                            alt="Architecture" 
-                            className="w-full aspect-[4/5] object-cover rounded-sm grayscale-[30%] shadow-2xl"
-                        />
-                        <div className="absolute -bottom-8 -right-8 bg-forest p-8 hidden md:block">
-                            <CactusLogo className="w-12 h-12 text-cactus" />
+                    <div className="relative group">
+                        <div className="absolute -inset-4 border border-cactus/10 group-hover:inset-0 transition-all duration-700"></div>
+                        <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=1200" alt="Detail of the basalt and glass fusion architecture" className="relative w-full aspect-[4/5] object-cover grayscale-[30%] shadow-2xl transition-all duration-700 group-hover:grayscale-0" />
+                        <div className="absolute -bottom-10 -right-10 bg-forest p-12 hidden lg:block shadow-2xl border border-white/5">
+                            <CactusLogo className="w-16 h-16 text-cactus animate-pulse-slow" />
                         </div>
                     </div>
                 </div>
             </Container>
         </section>
 
-        <HeritageFrieze />
+        {/* Local Wonders (Nearby Attractions) */}
+        <section className="py-40 bg-forest text-sandstone overflow-hidden">
+          <Container>
+            <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
+              <SectionTitle 
+                label="Sanctuary Surroundings"
+                title="Discover the Highlands"
+                description="Gateway to the spiritual heart of the Horn. Explore rock-hewn legacies and spiritual verticalities."
+                dark
+              />
+              <Button variant="outline" className="mb-12 border-white/10 text-sandstone hover:border-cactus">Explore Full Map</Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              <AttractionCard 
+                image="https://images.unsplash.com/photo-1543730058-7931f3bb9abc?auto=format&fit=crop&q=80&w=1000"
+                title="Gheralta Cliffs"
+                distance="45km"
+                description="Climb the vertical sandstone paths to 6th-century monasteries carved directly into the sheer cliffs."
+              />
+              <AttractionCard 
+                image="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1000"
+                title="Al-Najashi Mosque"
+                distance="32km"
+                description="The site of the first Hijra. A testament to Tigray's historical role as a sanctuary for all spirits."
+              />
+              <AttractionCard 
+                image="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=1000"
+                title="Debre Damo Monastery"
+                distance="52km"
+                description="Accessible only by a 15-meter leather rope. A living relic of early Christian architecture."
+              />
+            </div>
+          </Container>
+        </section>
+
+        <HeritageFrieze className="bg-sandstone py-8" />
         <CanaanPattern inverted />
 
-        {/* Guest Experiences */}
-        <section className="py-32 bg-sandstone/50 overflow-hidden">
+        {/* Global Testimonials Section */}
+        <section className="py-40 bg-sandstone">
             <Container>
-                <SectionTitle 
-                    label="Voices of the Highlands"
-                    title="Guest Experiences"
-                    centered
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <SectionTitle label="Voices of the World" title="Highland Experiences" centered />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <TestimonialCard 
-                        text="The intersection of ancient Tigrayan culture and sustainable luxury here is unprecedented. A truly stable haven in the north."
-                        author="Elena Volkov"
-                        role="Architectural Digest"
+                      text="Canaan is the architectural dialogue Ethiopia has been waiting for. It captures the ruggedness of Tigray in a silk-lined sanctuary."
+                      author="Jean-Pierre Dubois"
+                      role="Global Hospitality Lead"
+                      date="Nov 2025"
                     />
                     <TestimonialCard 
-                        text="Waking up to the Gheralta peaks from the Royal Mesob Suite is a spiritual experience. The service is as solid as the basalt foundations."
-                        author="Marcus Tadesse"
-                        role="International Traveler"
+                      text="The Grand Mesob Tower isn't just a hotel; it's a structural promise. I've never felt more connected to the ancient soil of the highlands."
+                      author="Elena Rodriguez"
+                      role="Solo Traveler & Architect"
+                      date="Dec 2025"
                     />
                     <TestimonialCard 
-                        text="As an investor, seeing this level of structural and cultural integrity in Adigrat gives me immense confidence in the region's future."
-                        author="Sarah Jennings"
-                        role="Global Partners Fund"
+                      text="Incredible stability and service. We hosted our regional summit here and the energy of the space is truly transcendental."
+                      author="Dr. Abiy Tadesse"
+                      role="Regional Director"
+                      date="Jan 2026"
                     />
                 </div>
+                <div className="mt-24 flex justify-center">
+                   <div className="flex flex-col items-center gap-6">
+                      <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Trusted by travelers worldwide</p>
+                      <div className="flex items-center space-x-10 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all duration-700">
+                         <span className="text-xl serif font-bold text-forest">Forbes Travel Guide</span>
+                         <span className="text-xl serif font-bold text-forest">Condé Nast</span>
+                         <span className="text-xl serif font-bold text-forest">Travel + Leisure</span>
+                      </div>
+                   </div>
+                </div>
             </Container>
+        </section>
+
+        {/* Closing Call to Action */}
+        <section className="py-32 bg-forest relative overflow-hidden">
+           <div className="absolute inset-0 opacity-10 canaan-pattern scale-150"></div>
+           <Container className="relative z-10 text-center">
+              <SectionTitle 
+                title="Your Sanctuary Awaits"
+                description="Experience the junction of ancient Tigrayan heritage and contemporary luxury."
+                centered
+                dark
+              />
+              <Button onClick={() => setIsBookingModalOpen(true)} className="mx-auto mt-10 px-20 py-6 text-xs">Begin Your Legacy</Button>
+           </Container>
         </section>
       </main>
     </div>

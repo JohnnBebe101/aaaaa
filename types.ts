@@ -3,7 +3,13 @@ export enum PageType {
   HOME = 'HOME',
   SUITES = 'SUITES',
   DINING = 'DINING',
-  INVESTMENT = 'INVESTMENT'
+  SERVICES = 'SERVICES',
+  ABOUT = 'ABOUT',
+  CONTACT = 'CONTACT',
+  INVESTMENT = 'INVESTMENT',
+  PRIVACY = 'PRIVACY',
+  TERMS = 'TERMS',
+  COOKIES = 'COOKIES'
 }
 
 export interface NavItem {
