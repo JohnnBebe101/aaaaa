@@ -1,13 +1,14 @@
 
 import React from 'react';
-import { SectionTitle, CanaanPattern, Container } from '../components/CommonUI';
+import { SectionTitle, CanaanPattern, Container, Badge, HeritageFrieze } from '../components/CommonUI';
+import { Coffee, Utensils, Landmark, History } from 'lucide-react';
 
 const Culture: React.FC = () => {
   return (
     <div className="animate-in fade-in duration-700">
        {/* Hero */}
-       <section className="relative h-[60vh] flex items-center justify-center pt-24 bg-forest">
-        <div className="absolute inset-0 z-0" aria-hidden="true">
+       <section className="relative h-[65vh] flex items-center justify-center pt-24 bg-forest">
+        <div className="absolute inset-0 z-0">
           <img 
             src="https://images.unsplash.com/photo-1543730058-7931f3bb9abc?auto=format&fit=crop&q=80&w=2000" 
             alt="Cultural Landscape of Tigray" 
@@ -16,25 +17,25 @@ const Culture: React.FC = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-forest/60 to-forest"></div>
         </div>
         <div className="relative z-10 text-center text-sandstone px-6">
-          <span className="block uppercase tracking-[0.3em] text-[10px] font-bold mb-6 text-cactus">Heritage & Identity</span>
-          <h1 className="text-5xl md:text-7xl serif mb-6">Tigray’s Living Legacy</h1>
+          <Badge variant="cactus">Heritage & Identity</Badge>
+          <h1 className="text-5xl md:text-8xl serif mt-6 mb-6">Tigray’s Living Legacy</h1>
           <p className="max-w-3xl mx-auto text-lg md:text-xl font-light text-gray-300">
-            Adigrat sits at the heart of a civilization that spans three millennia. From Axumite obelisks to the rock-hewn heights of Gheralta.
+            Adigrat sits at the heart of a civilization that spans three millennia. Experience the fusion of Axumite soul and modern sanctuary.
           </p>
         </div>
       </section>
 
       {/* The Story Section */}
-      <section className="py-24 bg-white" aria-labelledby="story-title">
-        <Container className="flex flex-col md:flex-row items-center gap-16">
-          <div className="flex-1" aria-hidden="true">
-             <div className="relative p-4 border border-cactus/10 rounded-2xl">
+      <section className="py-32 bg-white overflow-hidden">
+        <Container className="flex flex-col lg:flex-row items-center gap-24">
+          <div className="flex-1 relative">
+             <div className="relative p-6 border border-cactus/10 rounded-2xl bg-sandstone/30">
                 <img 
                     src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&q=80&w=1200" 
                     alt="Traditional Art" 
-                    className="w-full aspect-[3/4] object-cover rounded-xl grayscale opacity-80"
+                    className="w-full aspect-[4/5] object-cover rounded-sm grayscale opacity-90 shadow-2xl"
                 />
-                <div className="absolute -top-4 -left-4 w-24 h-24 border-t-4 border-l-4 border-cactus"></div>
+                <div className="absolute -top-6 -left-6 w-32 h-32 border-t-8 border-l-8 border-cactus hidden md:block"></div>
              </div>
           </div>
           <div className="flex-1">
@@ -42,10 +43,19 @@ const Culture: React.FC = () => {
                 label="The Axumite Origin"
                 title="The Soul of the Highlands"
             />
-            <div className="space-y-6 text-gray-600 leading-relaxed text-sm">
+            <div className="space-y-8 text-gray-600 leading-relaxed text-lg font-light">
                 <p>The architecture of Canaan International Adigrat is a tribute to the "Mesob"—the traditional shared dining vessel that represents unity and hospitality in Tigray.</p>
-                <p>We celebrate the endurance of the Highland culture. Our proximity to the Debre Damo monastery—founded in the 6th century—reminds us of the resilience and spiritual depth of this land. Adigrat itself, known as the "Gateway of the Highlands," has long served as a center of commerce and cultural exchange.</p>
-                <p>By integrating Axumite geometric logic with contemporary biophilic luxury, we invite our guests to participate in a story that is both ancient and evolving.</p>
+                <p>We celebrate the endurance of the Highland culture. Our proximity to the Debre Damo monastery—founded in the 6th century—reminds us of the resilience and spiritual depth of this land.</p>
+                <div className="grid grid-cols-2 gap-8 pt-8">
+                    <div>
+                        <h4 className="serif text-xl text-forest mb-2">3k+ Years</h4>
+                        <p className="text-[10px] uppercase font-bold text-cactus tracking-widest">Recorded History</p>
+                    </div>
+                    <div>
+                        <h4 className="serif text-xl text-forest mb-2">6th Century</h4>
+                        <p className="text-[10px] uppercase font-bold text-cactus tracking-widest">Spiritual Founding</p>
+                    </div>
+                </div>
             </div>
           </div>
         </Container>
@@ -53,82 +63,48 @@ const Culture: React.FC = () => {
 
       <CanaanPattern inverted />
 
-      {/* Heritage Landmarks */}
-      <section className="py-24 bg-forest text-sandstone" aria-labelledby="museum-title">
+      {/* Gastronomy Section - The Tihlo Experience */}
+      <section className="py-32 bg-sandstone">
         <Container>
-          <SectionTitle 
-            label="Cultural Exploration"
-            title="Spiritual Crossroads"
-            description="Explore the sacred sites that have made Tigray a beacon of religious and historical significance for centuries."
-            dark
-            centered
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {[
-              { 
-                title: 'Al Najashi Heritage', 
-                desc: 'Located just south of Adigrat, Al Najashi is the oldest mosque in Africa, marking the hospitality shown by the King of Axum to the first companions of Prophet Muhammad.',
-                points: ['First Islamic migration (Hijra)', 'Ancient tombs of the companions', 'Symbol of interfaith harmony']
-              },
-              { 
-                title: 'Rock-Hewn Gheralta', 
-                desc: 'Abuna Yemata Guh and Maryam Papaseti—churches carved directly into vertical sandstone cliffs, preserving 10th-century murals and manuscripts.',
-                points: ['Vertical rock climbing pilgrimage', 'Untouched 15th-century frescoes', 'Breathtaking high-altitude views']
-              },
-              { 
-                title: 'Axumite Obelisks', 
-                desc: 'The UNESCO World Heritage site of Axum, the center of one of the four great powers of the ancient world, is a short journey from our hotel.',
-                points: ['Towering granite stelae', 'Ruins of the Queen of Sheba’s palace', 'Ark of the Covenant tradition']
-              },
-              { 
-                title: 'Highland Traditions', 
-                desc: 'Experience the Tigrayan way of life through the Tihlo ceremony and the rhythmic movements of the Tigrinya dance.',
-                points: ['Traditional Tihlo dining', 'Authentic coffee ceremony', 'Intricate highland textiles']
-              },
-            ].map((item) => (
-              <article key={item.title} className="bg-white/5 border border-white/10 p-12 hover:bg-white/10 transition-all">
-                <h3 className="text-2xl serif mb-4 text-cactus">{item.title}</h3>
-                <p className="text-gray-400 text-sm mb-6 leading-relaxed">{item.desc}</p>
-                <ul className="space-y-2" role="list">
-                  {item.points.map(p => (
-                    <li key={p} className="text-[10px] text-gray-500 flex items-center">
-                       <span className="w-1 h-1 bg-cactus mr-2" aria-hidden="true"></span> {p}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
+            <div className="flex flex-col lg:flex-row gap-16">
+                <div className="flex-1">
+                    <SectionTitle 
+                        label="Canaanite Dining"
+                        title="The Tihlo Experience"
+                        description="Our kitchen is a tribute to the highland soil, offering dishes that have sustained the people of Adigrat for generations."
+                    />
+                    <div className="space-y-6">
+                        {[
+                            { name: 'Traditional Tihlo', price: '$22', desc: 'Barley dough balls served with spiced meat or vegetarian wot.' },
+                            { name: 'Spiced Ambasha', price: '$12', desc: 'Traditional highland bread infused with local spices.' },
+                            { name: 'Highland Siwa', price: '$15', desc: 'Ancient honey-based brew fermented in traditional clay.' },
+                            { name: 'Mesob Sampler', price: '$45', desc: 'A communal journey through Tigray’s most iconic flavors.' },
+                        ].map((item, i) => (
+                            <div key={i} className="flex justify-between items-end border-b border-cactus/10 pb-4 group cursor-default">
+                                <div className="flex-1 pr-4">
+                                    <h4 className="serif text-xl text-forest group-hover:text-cactus transition-colors">{item.name}</h4>
+                                    <p className="text-sm text-gray-500 italic mt-1">{item.desc}</p>
+                                </div>
+                                <div className="text-forest font-bold font-sans text-sm">{item.price}</div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                <div className="flex-1 bg-forest p-16 text-sandstone flex flex-col justify-center items-center text-center rounded-sm">
+                    <Coffee className="w-16 h-16 text-cactus mb-10" />
+                    <h3 className="text-4xl serif mb-6">Ceremonial Coffee</h3>
+                    <p className="text-gray-400 font-light leading-relaxed mb-10">
+                        Experience the three stages of the Tigrayan coffee ceremony: Abol, Tona, and Baraka. A journey of aroma and highland hospitality.
+                    </p>
+                    <button className="text-[10px] uppercase tracking-[0.4em] font-bold text-cactus border-b border-cactus pb-2 hover:text-sandstone hover:border-sandstone transition-all">
+                        Book Private Ceremony
+                    </button>
+                </div>
+            </div>
         </Container>
       </section>
 
-      {/* Regional Specialties */}
-      <section className="py-24 bg-sandstone">
-        <Container>
-          <SectionTitle 
-            label="Gastronomy"
-            title="The Flavors of Tigray"
-            description="Our kitchen is a tribute to the highland soil, offering dishes that have sustained the people of Adigrat for generations."
-            centered
-          />
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-            {[
-              { name: 'Tihlo', role: 'Barley Specialty' },
-              { name: 'Ambasha', role: 'Traditional Spiced Bread' },
-              { name: 'Tegabino', role: 'Spiced Chickpea Stew' },
-              { name: 'Siwa', role: 'Highland Honey Brew' }
-            ].map(dish => (
-              <article key={dish.name} className="border border-cactus/10 p-8 text-center bg-white hover:border-cactus transition-all">
-                 <h4 className="font-bold text-sm mb-2 text-forest">{dish.name}</h4>
-                 <p className="text-[10px] text-gray-400 uppercase tracking-tighter">{dish.role}</p>
-              </article>
-            ))}
-          </div>
-        </Container>
-      </section>
-
+      <HeritageFrieze />
       <CanaanPattern inverted />
     </div>
   );

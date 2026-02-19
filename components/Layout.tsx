@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { PageType } from '../types';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone, Mail, Globe } from 'lucide-react';
 import { CactusLogo } from './CommonUI';
 import { BookingWidget } from './BookingWidget';
 
@@ -18,7 +18,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onPageCha
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
+      setIsScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -35,13 +35,30 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onPageCha
 
   return (
     <div className="min-h-screen bg-sandstone text-forest overflow-x-hidden">
-      <header>
+      <header className="relative z-50">
+        {/* Top Info Bar - Stability Focus */}
+        <div className={`hidden lg:flex justify-between items-center px-6 py-2 border-b border-white/10 transition-all duration-500 ${isScrolled ? 'h-0 opacity-0 -translate-y-full overflow-hidden' : 'bg-forest/20 backdrop-blur-sm'}`}>
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center text-[8px] uppercase tracking-widest text-sandstone/60 font-bold">
+              <Phone className="w-3 h-3 mr-2 text-cactus" /> +251 941 12 34 56
+            </div>
+            <div className="flex items-center text-[8px] uppercase tracking-widest text-sandstone/60 font-bold">
+              <Mail className="w-3 h-3 mr-2 text-cactus" /> stay@canaanadigrat.com
+            </div>
+          </div>
+          <div className="flex items-center space-x-4">
+             <button className="text-[8px] uppercase tracking-widest text-cactus font-bold hover:text-sandstone transition-colors flex items-center">
+               <Globe className="w-3 h-3 mr-1" /> EN
+             </button>
+          </div>
+        </div>
+
         <nav 
           aria-label="Main navigation"
           className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
             isScrolled 
               ? 'bg-forest/90 backdrop-blur-md shadow-2xl py-3' 
-              : 'bg-transparent py-8'
+              : 'lg:top-10 bg-transparent py-6'
           }`}
         >
           <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -51,7 +68,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, currentPage, onPageCha
               aria-label="Canaan International Hotel Home"
             >
               <div className={`p-2 rounded-full transition-all duration-500 ${
-                isScrolled ? 'bg-cactus text-sandstone scale-90' : 'bg-cactus text-sandstone'
+                isScrolled ? 'bg-cactus text-sandstone scale-90' : 'bg-cactus text-sandstone shadow-xl'
               }`}>
                   <CactusLogo className="w-6 h-6" />
               </div>

@@ -1,5 +1,7 @@
 {
-  "name": "Canaan-Hoel-UI-trial",
-  "description": "A high-end, responsive React application for the Grand Mesob Tower, featuring distinct sections for Investment, Culture, and Design Overview with custom architectural aesthetics.",
-  "requestFramePermissions": []
+  "name": "Canaan-Hotel-Stability-Core",
+  "description": "A refined, professional React design system optimized for migration to the Next.js Stability branch. Features biophilic luxury aesthetics and heritage-driven components.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
 }
